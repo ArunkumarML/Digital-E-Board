@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block page %}
+<div class="card fixed-top  mt-5  mr-0 width:100% " >
+	<div class="card-body">
+		<div class="row  justify-content-between">
+			<div class="col-6">
+				<h1 class="text-primary" style="font-size:25px; color: blue;">Welcome back to My Eboard!</h1>
+	
+				<div class="align-items-center justify-content-between mt-5 mb-5" >
+					<p class="text-muted" >Here, you can create new connection requests, track the status of your requests, and edit your application. We offer a user-friendly platform that allows you to manage your requests with ease. Join eBoard today and experience the convenience of our services! </p>
+				</div>
+				<div style="background-image: url(https://mcdn.wallpapersafari.com/medium/22/44/9mpUlB.png);">
+
+			</div>
+				<a class="btn btn-primary btn-sm px-3 py-2" href="#">
+					Get Started
+					<i class="ml-1" data-feather="arrow-right"></i>
+				</a>
+			</div>
+				<div class="col-6">
+					<div class="container mt-2 ">
+						<h1 class="text-center mb-5">Connection Requests</h1>
+						<div class="form-group">
+							<label for="status-select">Select status:</label>
+							<select class="form-control" id="status-select">
+								<option value="Pending">Pending</option>
+								<option value="Approved">Approved</option>
+								<option value="Rejected">Rejected</option>
+							</select>
+						</div>
+						<canvas id="myChart"></canvas>
+					</div>
+				</div>
+		 </div>
+	</div>
+</div>
+
+<script>
+	function getData(status) {
+			return fetch(`/api/application/chart-data/?status=${status}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json;charset=UTF-8",
+				},
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					return data.data;
+				})
+				.catch((error) => {
+					console.error(error);
+					throw new Error("Failed to retrieve application data");
+				});
+		}
+
+	// Initialize chart with default status
+	status = document.getElementById("status-select").value;
+	let data = getData(status);
+	data.then((data) => {
+			let labels = data.map(item => item.month_name);
+			let values = data.map(item => item.count);
+			let ctx = document.getElementById("myChart").getContext("2d");
+			let chart = new Chart(ctx, {
+				type: "line",
+				data: {
+					labels: labels,
+					datasets: [{
+						label: `Number of ${status} requests`,
+						data: values,
+						fill: false,
+						borderColor: "rgba(75,192,192,1)",
+						borderWidth: 1
+					}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+					}
+				}
+			});
+		}).catch((error) => {
+			console.error(error);
+		})
+	
+
+	// Listen for changes in the status dropdown and update the chart
+	let statusSelect = document.getElementById("status-select");
+		statusSelect.addEventListener("change", function () {
+			status = this.value;
+			data = getData(status);
+			data.then((data) => {
+				console.log(data)
+				labels = data.map(item => item.month);
+				values = data.map(item => item.count);
+				chart.data.datasets[0].label = `Number of ${status} requests`;
+				chart.data.datasets[0].data = values;
+				chart.update();
+			}).catch((error) => {
+				console.error(error);
+			})
+		});
+</script>
+{% endblock %}

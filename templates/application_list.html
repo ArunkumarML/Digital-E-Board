@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>E-board</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css">
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+     margin: auto;
+
+}
+    table {
+      width: 100%;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+        width: auto;
+        min-width: 150px;
+    }
+    tr:nth-child(even) {
+      background-color: lightskyblue;
+    }
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+  </style>
+</head>
+<body>
+    <div class="card card-waves m-4">
+        <div class="card-body p-5">
+            <h5 class="card-title">Apllication List</h5>
+    <div class="row">
+        <div class="container mt-5">
+              <form onsubmit="load_list(); return false;">
+            <div class="field is-horizontal">
+                <div class="field-body ">
+                    <div class="field">
+                        <p class="control">
+                            <input id="from_date" type="date" class="input" required>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            <input id="to_date" type="date" class="input" required>
+                        </p>
+                    </div>
+                    <div class="field">
+                 <div  class="control is-pulled-right">
+                    <input class="button is-link" value="Load Data" type="submit">
+                 </div>
+            </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+    </div>
+    <br>
+<div class='card' style="margin: 30px">
+    <div class='card-header'>
+        <table id ='result_table' >
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>created at</th>
+                    <th>Category</th>
+                    <th>Ownership</th>
+                    <th>Status</th>
+                    <th>Load</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+    </body>
+  <script>
+    // initialize the datatable
+    function load_list()
+        {
+        fetch(`/api/application/application-list/?from_date=${document.getElementById('from_date').value}&to_date=${document.getElementById('to_date').value}}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json;charset=UTF-8',
+                        }
+                    })
+                    .then((response) => response.json())
+   .then((data) => {
+   load_order_data(data.data);
+
+   })
+   .catch((error) => {
+    console.log(error);
+   });
+   }
+
+   function load_order_data(order_data)
+   {
+    console.log(order_data)
+     try{
+			table.destroy();
+		}
+		catch(err) {
+			console.log("table not yet initialized!")
+		}
+		table = $('#result_table').DataTable( {
+			data: order_data,
+            columns:[
+                    {data: 'id',
+            render: function (data, type, row, meta) {
+
+                return '<a onclick="editApplication(' + row.id + ')">' + row.id + '</a>';
+}
+            },
+                    {data: 'customer__name',
+
+                    },
+                    {data: 'created_at__date'},
+                    {data: 'customer__application__category'},
+                    {data: 'customer__ownership'},
+                    {data: 'status',
+                    render: function (data, type, row) {
+                    return `<span class="badge ${data == 'Approved' ? 'badge-success' : (data == 'Cancelled' ? 'badge-danger' : 'badge-warning')} text-white">
+  ${data}
+</span>`
+                }},
+                    {data: 'load'},
+                ],
+                "order": [[1, "asc"]]
+            })
+            ;
+        }
+        
+function editApplication(applicationId) {
+
+  // Retrieve the application data using the ID passed in the function call
+  var applicationData = retrieveApplicationData(applicationId);
+  applicationData.then((applicationData) => {
+      window.location.href = "/application/create-form/?name=" + applicationData.customer__name +
+                          "&date=" + applicationData.created_at__date +
+                          "&gender=" + applicationData.customer__gender +
+                          "&category=" + applicationData.customer__application__category +
+                          "&ownership=" + applicationData.customer__ownership +
+                          "&pincode=" + applicationData.customer__district__pincode +
+                          "&govt_type=" + applicationData.customer__government_id_type +
+                          "&govt_num=" + applicationData.customer__government_id_number +
+                          "&status=" + applicationData.status +
+                          "&remarks=" + applicationData.remarks +
+                          "&load=" + applicationData.load +
+                          "&state=" + applicationData.customer__state +
+                          "&district=" + applicationData.customer__district +
+                          "&pincode=" + applicationData.customer__pincode +
+                          "&edit=" + true
+                        //   "&address=" + applicationData. +
+
+}).catch((error) => {
+  console.error(error);
+
+})
+};
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
+$(document).ready(function(){
+    document.getElementById('from_date').value = document.getElementById('to_date').value = new Date().toDateInputValue();
+  });
+
+
+function retrieveApplicationData(applicationId) {
+  return fetch(`/api/application/applicant/?id=${applicationId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      return data.data[0];
+    })
+    .catch((error) => {
+      console.error(error);
+      throw new Error("Failed to retrieve application data");
+    });
+}
+  </script>

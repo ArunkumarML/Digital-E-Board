@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous" />
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+
+
+<body>
+    {%load static%}
+
+    <form  id="foData" method="POST" action='/api/application/new-application/' class="needs-validation"  enctype="multipart/form-data" name="app_form" novalidate >
+        {% csrf_token %}
+        <div class="container-fluid mb-5" style="background-color: #042331">
+            <div class="text-center py-2 text-center"  style="color: white;">
+                <h2 id ='applicant_form'>APPLICANT FORM</h2>
+            </div>
+            <div class="card mx-5 shadow p-3 bg-body rounded-3">
+                <div class="card-body">
+                    <h4 id ='applicant_date'></h4>
+                    <h4 id ='applicant_status'></h4>
+                    <div class="form-group" style="position: relative">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="applicantname" class="form-label">Applicant Name</label>
+                                <input type="text" id="ApplicantName" class="form-control" name="name"
+                                    aria-describedby="applicantname" placeholder="Applicant Name" required />
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    Please provide detail .
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">Select gender</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                    <option value="NB">Non-binary</option>
+                                    <option value="O">Other</option>
+                                </select>
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    Please provide detail .
+                                </div>
+                            </div>
+
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="government_id_type" class="form-label">Government ID Type</label>
+                                    <select class="form-control" id="government_id_type" name="government_id_type"
+                                        required>
+                                        <option value="">Select ID type</option>
+                                        <option value="aadhar">Aadhar</option>
+                                        <option value="pan">PAN</option>
+                                        <option value="passport">Passport</option>
+                                        <option value="voter_id">Voter ID</option>
+                                    </select>
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        Please provide detail .
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="pan" class="form-label">ID Number</label>
+                                <input type="text" id="govt_number" class="form-control" placeholder="ID Number"
+                                    aria-describedby="Government Id" required name="govt_num" />
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    Please provide detail .
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="ownership" class="form-label">Ownership</label>
+                                    <select class="form-control" id="ownership" name="ownership" required>
+                                        <option value="">Select ownership</option>
+                                        <option value="1">JOINT</option>
+                                        <option value="2">INDIVIDUAL</option>
+                                    </select>
+                                    <div id="validationServer03Feedback" class="invalid-feedback">
+                                        Please provide detail .
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="category" class="form-label">Category</label>
+                                <select class="form-control" id="category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="1">Commerical</option>
+                                    <option value="2">Residential</option>
+                                </select>
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    Please provide detail .
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-control" id="status" name="status" required>
+                                    <option value="0">Select Status</option>
+                                    <option value="1">Pending</option>
+                                    <option value="2">Approved</option>
+                                    <option value="3">Rejected</option>
+                                </select>
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    Please provide detail .
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="load_applied" class="form-label">Load</label>
+                                <label for="my-input">Enter number (maximum 200):</label>
+                                <input type="number" class="form-control" id="load" name="load" maxlength="3" max="200">
+                                <div id="validationServer03Feedback" class="invalid-feedback">
+                                    Please provide Load.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="address" class="form-label">Address Line</label>
+                    <input type="text" id="address" class="form-control" name="address" placeholder="Door number, Building name" />
+                </div>
+                <div class="col-sm-3">
+                    <label for="pincode" class="form-label">Pincode</label>
+                    <select class="form-select" required aria-label="select Pincode" id="pincode" name="pincode" onchange="">
+                        <option value="">Select the pincode</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Field is required.
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <label for="district" class="form-label">District</label>
+                    <select class="form-select" required aria-label="select district" id="district" name="district">
+                        <option value="">Select the district</option>
+                    
+                    </select>
+                    <div class="invalid-feedback">
+                        Field is required.
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <label for="State" class="form-label">State</label>
+                    <select class="form-select" required aria-label="select Pincode" id="state" name="state">
+                        <option value="">select the state</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Field is required.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="remarks" class="form-label text-align align-items-center">Remarks:</label>
+                        <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
+                        <div class="form-text">Enter any additional information or instructions here.</div>
+               </div>
+            </div>
+            <br />
+            <div class="text-center">
+                <div class="form-group">
+                    <button class="btn btn-primary btn-md btn-block" type="submit">
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+            <hr />
+        </div>
+        <div class="pt-3 text-center">
+            <small class="">
+                Built for <b> E-Board </b> by
+                <a href="https://www.Eboard.com/">E-board Tech Pvt ltd.</a>
+            </small>
+        </div>
+        </div>
+        </div>
+    </div>
+</div>
+    </form>
+</body>
+        {% csrf_token %}
+
+<script>
+
+
+const stateElement = document.getElementById('state');
+const districtElement = document.getElementById('district');
+const pincodeElement = document.getElementById('pincode');
+
+// Make an API call to fetch the data
+fetch('/api/application/state/')
+  .then(response => response.json())
+  .then(data => {
+    // Loop through the data and generate option elements
+    data['results'].forEach(item => {
+      const optionElement = document.createElement('option');
+      optionElement.value = item.id;
+      optionElement.text = item.name;
+      stateElement.appendChild(optionElement);
+    });
+    // Add an event listener to the select element
+    stateElement.addEventListener('change', event => {
+      const selectedValue = event.target.value;
+      console.log(`Selected value: ${selectedValue}`);
+    });
+  })
+  .catch((error) => {
+      
+    });
+
+    fetch('/api/application/district/')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    // Loop through the data and generate option elements
+    data['results'].forEach(item => {
+      const optionElement = document.createElement('option');
+      optionElement.value = item.id;
+      optionElement.text = item.name;
+      districtElement.appendChild(optionElement);
+    });
+    // Add an event listener to the select element
+    districtElement.addEventListener('change', event => {
+      const selectedValue = event.target.value;
+      console.log(`Selected value: ${selectedValue}`);
+    });
+  })
+  .catch((error) => {
+      
+    });
+    fetch('/api/application/pincode/')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    // Loop through the data and generate option elements
+    data['results'].forEach(item => {
+      const optionElement = document.createElement('option');
+      optionElement.value = item.id;
+      optionElement.text = item.value;
+      pincodeElement.appendChild(optionElement);
+    });
+    // Add an event listener to the select element
+    pincodeElement.addEventListener('change', event => {
+      const selectedValue = event.target.value;
+      console.log(`Selected value: ${selectedValue}`);
+    });
+  })
+  .catch((error) => {
+      
+    });
+
+   (function () {
+        "use strict";
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll(".needs-validation");
+   
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener(
+                "submit",
+                function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    form.classList.add("was-validated");
+                },
+                false
+            );
+        });
+    })();
+
+
+  var urlParams = new URLSearchParams(window.location.search);
+
+  if(urlParams.get("edit") == 'true'){
+
+            var applicationName = urlParams.get("name");
+            var applicationGender = urlParams.get("gender");
+            var applicationCategory = urlParams.get("category");
+            var applicationOwnership = urlParams.get("ownership");
+            var applicationPincode = urlParams.get("pincode");
+            var applicationGovtType = urlParams.get("govt_type");
+            var applicationGovtNum = urlParams.get("govt_num");
+            var applicationStatus = urlParams.get("status");
+            var applicationRemarks = urlParams.get("remarks");
+            var applicationLoad = urlParams.get("load");
+            var applicationState = urlParams.get("state");
+            var applicationDistrict = urlParams.get("district");
+            //   // Set the form field values with the pre-filled data
+            document.getElementById("ApplicantName").value = applicationName;
+            document.getElementById("gender").value = applicationGender;
+            document.getElementById("category").value = applicationCategory;
+            document.getElementById("ownership").value = applicationOwnership;
+            document.getElementById("pincode").innerHTML = applicationPincode;
+            document.getElementById("government_id_type").value = applicationGovtType;
+            document.getElementById("govt_number").value = applicationGovtNum;
+            document.getElementById("remarks").value = applicationRemarks;
+            document.getElementById("load").value = applicationLoad;
+            document.getElementById("state").innerHTML = applicationState;
+            document.getElementById("district").innerHTML = applicationDistrict;
+            document.getElementById("government_id_type").disabled = true;
+            document.getElementById("govt_number").readOnly = true;
+            document.getElementById("applicant_form").innerHTML = "EDIT APPLICANT FORM";
+            document.getElementById("applicant_date").innerHTML = "Date : " + urlParams.get("date");
+            document.getElementById("applicant_status").innerHTML = "Status :" + urlParams.get("status");
+            
+
+  }
+
+</script>
+</head>
+
+</html>

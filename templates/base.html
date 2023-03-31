@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>E-Board</title>
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css">
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma-rtl.min.css">
+<style>
+/* add your own custom CSS styles here */
+body {
+font-family: Arial, sans-serif;
+font-size: 16px;
+line-height: 1.5;
+color: #333;
+ margin: auto;
+
+}
+table {
+  width: 100%;
+}
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+th {
+  background-color: lightskyblue;
+    width: auto;
+    min-width: 150px;
+}
+tr:nth-child(even) {
+  background-color: lightskyblue;
+}
+
+header {
+background-color: #f2f4f8;
+padding: 10px 20px;
+box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+list-style: none;
+display: flex;
+
+}
+
+nav ul li {
+margin-right: 20px;
+}
+
+nav ul li a {
+text-decoration: none;
+color: #333;
+}
+
+</style>
+
+
+  <style media="screen">
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@400;600&display=swap');
+
+    
+
+*{
+    font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	list-style: none;
+	text-decoration: none;
+}
+
+body{
+	background: #f5f5f5;
+}
+
+.top_navbar{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 60px;
+	background: #042331;
+	box-shadow: 1px 0 2px rgba(0,0,0,0.125);
+	display: flex;
+	align-items: center;
+}
+
+.top_navbar .logo{
+	width: 250px;
+	font-size: 25px;
+	font-weight: 700;
+	padding: 0 25px;
+	color: white;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	border-right: 1px solid #f5f5f5;
+}
+
+
+
+.top_navbar .menu{
+	width: calc(100% - 250px);
+	padding: 0 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.top_navbar .hamburger{
+	font-size: 25px;
+	cursor: pointer;
+	color: white;
+}
+
+.top_navbar .hamburger:hover{
+	color: #007dc3;
+}
+
+.hover_collapse .sidebar{
+	width: 70px;
+}
+
+.hover_collapse .sidebar ul li a .text{
+	display: none;
+}
+
+.sidebar{
+	position: fixed;
+	top: 60px;
+	left: 0;
+	width: 220px;
+	height: 100%;
+	background: #042331;
+}
+
+.sidebar ul li a{
+	display: block;
+	padding: 16px 25px;
+	border-bottom: 1px solid #03374e;
+	color: #0e94d4;
+
+
+}
+
+.sidebar ul li a .icon{
+	font-size: 18px;
+  color: white;
+	vertical-align: middle;
+
+}
+
+.sidebar ul li a .text{
+	margin-left: 19px;
+	color: #fff;
+  font-family: sans-serif;
+
+	letter-spacing: 2px;
+}
+
+.sidebar ul li a:hover{
+	background: #0e94d4;
+	color: #fff;
+}
+
+
+
+  </style>
+</head>
+<body>
+
+
+<div class="wrapper hover_collapse">
+	<div class="top_navbar">
+		<div class="logo">E board</div>
+		<div class="menu">
+			<div class="hamburger">
+				<i class="fas fa-bars"></i>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="sidebar">
+		<div class="sidebar_inner">
+		<ul>
+			<li>
+				<a href="#">
+					<span class="icon"><i class="fa fa-qrcode"></i></span>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="/application/create-form/">
+					<span class="icon"><i class="fa fa-link"></i></span>
+					<span class="text">Create Application</span>
+				</a>
+			</li>
+			<li>
+				<a href="/application/applications/">
+					<span class="icon"><i class="fa fa-eye"></i></span>
+					<span class="text">Applications</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"><i class="fa fa-book"></i></span>
+					<span class="text">Admin</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span class="icon"><i class="fa fa-question-circle"></i></span>
+					<span class="text">About</span>
+				</a>
+			</li>
+      <li>
+				<a href="#">
+					<span class="icon"><i class="fa fa-pen"></i></span>
+					<span class="text">Service</span>
+				</a>
+			</li>
+      <li>
+				<a href="#">
+					<span class="icon"><i class="fa fa-id-card"></i></span>
+					<span class="text">Contact</span>
+				</a>
+			</li>
+            <li>
+				<a href="/logout">
+					<span class="icon"><i class="fa fa-id-card"></i></span>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+            <li>
+				<a href="/password-change">
+					<span class="icon"><i class="fa fa-id-card"></i></span>
+					<span class="text">Change Password</span>
+				</a>
+			</li>
+		</ul>
+		</div>
+	</div>
+    <section class="section" style="background-color: {% if request.env == 'redfish-so'%}#69ad58{% else %}#f2f4f8{% endif %}">
+		<div class="container">
+			{% block page %}
+
+			{% endblock %}
+		</div>
+	</section>
+
+
+
+</div>
+
+<script type="text/javascript">
+ var li_items = document.querySelectorAll(".sidebar ul li");
+var hamburger = document.querySelector(".hamburger");
+var wrapper = document.querySelector(".wrapper");
+
+
+
+li_items.forEach((li_item)=>{
+	li_item.addEventListener("mouseenter", ()=>{
+
+
+			li_item.closest(".wrapper").classList.remove("hover_collapse");
+
+
+	})
+
+})
+
+li_items.forEach((li_item)=>{
+	li_item.addEventListener("mouseleave", ()=>{
+
+			li_item.closest(".wrapper").classList.add("hover_collapse");
+
+
+	})
+})
+
+hamburger.addEventListener("click", () => {
+
+	hamburger.closest(".wrapper").classList.toggle("hover_collapse");
+})
+</script>
+</body>
+</html>
+
